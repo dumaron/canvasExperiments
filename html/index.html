@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Scala di grigi</title>
+  <style>
+  .filtro {
+    display: block;
+  }
+  </style>
+</head>
+<body>
+  <div id="comandi">
+    <select id="immagine"></select>
+    <button type="button" id="aggiungiFiltro">Aggiungi filtro</button>
+    <button type="button" id="genera">Genera</button>
+    <button type="button" id="salva">Salva</button>
+  </div>
+  <div id="filtri"></div>
+  <div id="canvasContainer">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="built/scripts/SuperCanvas.js"></script>
+  <script type="text/javascript" src="built/scripts/filters.js"></script>
+  <script type="text/javascript" src="built/scripts/index.js"></script>
+</body>
+</html>
