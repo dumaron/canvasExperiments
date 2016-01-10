@@ -9,6 +9,16 @@ app.get('/', function (req, res) {
     res.sendFile('./html/index.html', { root: __dirname});
 });
 
+app.get('/images', function (req, res) {
+   fs.readdir('./images', function (err, files) {
+       if (err) {
+           res.send(err, 500);
+       } else {
+           res.send(files);
+       }
+   })
+});
+
 // app.post('/save', function(req, res) {
 //     var name = new Date().getTime() + '.png';
 //     fs.writeFile('results/' + name, req.body.base64, 'base64');
