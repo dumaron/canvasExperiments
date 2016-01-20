@@ -5,7 +5,7 @@ const $immaginiSelect = $('#immagine');
 const $addFilterButton = $('#aggiungiFiltro');
 const $filtersContainer = $('#filtri');
 const $generateButton = $('#genera');
-const canvas = new SuperCanvas(<HTMLCanvasElement>document.getElementById('canvas'));
+const canvas = <HTMLCanvasElement>document.getElementById('canvas');
 
 
 $.get('/images').then(images => {
@@ -37,13 +37,13 @@ $generateButton.click(event => {
 function applyFilters(filters:any, url:string):void {
     var img:HTMLImageElement = new Image();
     img.onload = function ():void {
-        canvas.canvas.width = img.width;
-        canvas.canvas.height = img.height;
-        canvas.context.drawImage(img, 0, 0);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
         var localFilter = filters.pop();
         localFilter(canvas);
         if (filters.length > 0)
-            applyFilters(filters, canvas.canvas.toDataURL());
+            applyFilters(filters, canvas.toDataURL());
     };
     img.src = url;
 }

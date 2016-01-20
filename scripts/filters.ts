@@ -1,226 +1,352 @@
 var filters = {};
 
-filters['scala di grigi 1'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        var max = Math.max(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        pixel.fill.r = max;
-        pixel.fill.g = max;
-        pixel.fill.b = max;
-        sCanvas.drawPixel(pixel);
-    });
+filters['scala di grigi 1'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let max = Math.max(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i] = pixels[i+1] = pixels[i+2] = max;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['scala di grigi 2'] = function (sCanvas: SuperCanvas): void {
-    sCanvas.getPixels().forEach(pixel => {
-        var min = Math.min(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        pixel.fill.r = min;
-        pixel.fill.g = min;
-        pixel.fill.b = min;
-        sCanvas.drawPixel(pixel);
-    });
+filters['scala di grigi 2'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i] = pixels[i+1] = pixels[i+2] = min;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['scala di grigi 3'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        var min = Math.min(pixel.fill.r, pixel.fill.g, pixel.fill.b) * 5;
-        pixel.fill.r = min;
-        pixel.fill.g = min;
-        pixel.fill.b = min;
-        sCanvas.drawPixel(pixel);
-    });
+filters['scala di grigi 3'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i] = pixels[i+1] = pixels[i+2] = min * 5;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['scala di grigi 4'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        var min = Math.min(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        min *= 1 + min / 256;
-        pixel.fill.r = min;
-        pixel.fill.g = min;
-        pixel.fill.b = min;
-        sCanvas.drawPixel(pixel);
-    });
+filters['scala di grigi 4'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        min = min * (1 + min) / 256;
+        pixels[i] = pixels[i+1] = pixels[i+2] = min;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 1'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        var min = Math.min(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        pixel.fill.r = min > 128 ? 200 : min;
-        pixel.fill.g = min;
-        pixel.fill.b = min;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 1'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i+1] = pixels[i+2] = min;
+        pixels[i] = min > 128 ? 200 : min;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 2'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        pixel.fill.r = Math.max(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 2'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        pixels[i] = Math.max(pixels[i], pixels[i + 1], pixels[i + 2]);
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 3'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        var min = Math.min(pixel.fill.r, pixel.fill.g, pixel.fill.b);
-        var c = 1.4;
-        var limit = 160;
-        pixel.fill.r = pixel.fill.r > limit ? (min * c) : min;
-        pixel.fill.g = min;
-        pixel.fill.b = min;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 3'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0,
+        c = 1.4,
+        limit = 160;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i+1] = pixels[i+2] = min;
+        pixels[i] = pixels[i] > limit ? (min * c) : min;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 4'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        pixel.fill.r *= 1.4;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 4'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        pixels[i] *= 1.4;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 5'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        let distance = ((pixel.fill.r - pixel.fill.g) + (pixel.fill.r - pixel.fill.b)) / 2;
-        pixel.fill.r *= distance > 20 ? 1.1 : .9;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 5'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let distance = ((pixels[i] - pixels[i + 1]) + (pixels[i] - pixels[i + 2])) / 2;
+        pixels[i] *= distance > 20 ? 1.1 : .9;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 6'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        let distance = ((pixel.fill.r - pixel.fill.g) + (pixel.fill.r - pixel.fill.b)) / 2;
-        pixel.fill.r += distance * 0.6;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 6'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let distance = ((pixels[i] - pixels[i + 1]) + (pixels[i] - pixels[i + 2])) / 2;
+        pixels[i] += distance * .6;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['colori 7'] = function (sCanvas:SuperCanvas):void {
-    sCanvas.getPixels().forEach(pixel => {
-        let distance = ((pixel.fill.r - pixel.fill.g) + (pixel.fill.r - pixel.fill.b)) / 2;
-        pixel.fill.r += distance * .8;
-        pixel.fill.g += distance * .1;
-        sCanvas.drawPixel(pixel);
-    });
+filters['colori 7'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        pixels[i] = 255;
+        pixels[i+1] = 0;
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['sfocatura 1'] = function (sCanvas:SuperCanvas):void {
-    let w = sCanvas.canvas.width;
+filters['colori 8'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
 
-    // need to read and then write, otherwise it will read already written pixels
-    let pixels = sCanvas.getPixels();
-    let finalPixels:Pixel[] = [];
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i+1] = pixels[i+2] = min;
+        pixels[i] += Math.log(min*2);
+    }
 
-    pixels.forEach(pixel => {
-        if (pixel.x > 0 && pixel.x < w) {
-            let intervalX = 5;
-            let colors:Color[] = [];
-            let cont;
+    context.putImageData(img, 0, 0);
+};
 
-            for (cont = pixel.x - intervalX; cont <= pixel.x + intervalX; cont++) {
-                let color = sCanvas.getPixelColor(cont, pixel.y);
-                if (typeof color !== 'undefined') colors.push(color);
-            }
+filters['colori 9'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
 
-            pixel.fill.r = avg(colors.map(c => c.r));
-            pixel.fill.g = avg(colors.map(c => c.g));
-            pixel.fill.b = avg(colors.map(c => c.b));
-            finalPixels.push(pixel);
+    for (i; i<pixels.length; i+=4) {
+        let distance = ((pixels[i] - pixels[i + 1]) + (pixels[i] - pixels[i + 2])) / 2;
+        pixels[i] += distance * 1.4;
+        pixels[i+1] += distance * .9;
+    }
+
+    context.putImageData(img, 0, 0);
+};
+
+filters['sfocatura 1'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        tempPixels = context.getImageData(0, 0, w, h).data,
+        i = 0,
+        j = 0,
+        r, g, b,
+        interval = 5;
+
+    for (i; i<pixels.length; i+=4) {
+        r = [];
+        g = [];
+        b = [];
+
+        for (j = -interval; j <= interval; j++) {
+            r.push(tempPixels[i + j * 4]);
+            g.push(tempPixels[i + 1 + j * 4]);
+            b.push(tempPixels[i + 2 + j * 4]);
         }
-    });
 
-    finalPixels.forEach(sCanvas.drawPixel.bind(sCanvas));
+        pixels[i] = avg(r);
+        pixels[i+1] = avg(g);
+        pixels[i+2] = avg(b);
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-filters['sfocatura 2'] = function (sCanvas:SuperCanvas):void {
-    let w = sCanvas.canvas.width;
+filters['sfocatura 2'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        tempPixels = context.getImageData(0, 0, w, h).data,
+        i = 0,
+        j = 0,
+        r, g, b,
+        intervalX = 5,
+        intervalY = 5;
 
-    // need to read and then write, otherwise it will read already written pixels
-    let pixels = sCanvas.getPixels();
-    let finalPixels:Pixel[] = [];
+    for (i; i<pixels.length; i+=4) {
+        r = [];
+        g = [];
+        b = [];
 
-    pixels.forEach(pixel => {
-        if (pixel.x > 0 && pixel.x < w) {
-            let intervalX = 5;
-            let intervalY = 5;
-            let colors:Color[] = [];
-            let cont;
-
-            for (cont = pixel.x - intervalX; cont <= pixel.x + intervalX; cont++) {
-                let color = sCanvas.getPixelColor(cont, pixel.y);
-                if (typeof color !== 'undefined') colors.push(color);
-            }
-
-            for (cont = pixel.y - intervalY; cont <= pixel.y + intervalY; cont++) {
-                let color = sCanvas.getPixelColor(pixel.x, cont);
-                if (typeof color !== 'undefined') colors.push(color);
-            }
-
-            pixel.fill.r = avg(colors.map(c => c.r));
-            pixel.fill.g = avg(colors.map(c => c.g));
-            pixel.fill.b = avg(colors.map(c => c.b));
-            finalPixels.push(pixel);
+        for (j = -intervalX; j <= intervalX; j++) {
+            r.push(tempPixels[i + j * 4]);
+            g.push(tempPixels[i + 1 + j * 4]);
+            b.push(tempPixels[i + 2 + j * 4]);
         }
-    });
 
-    finalPixels.forEach(sCanvas.drawPixel.bind(sCanvas));
-    console.log('fine');
+        for (j = -intervalY; j <= intervalY; j++) {
+            r.push(tempPixels[i + (j * 4 * w)]);
+            g.push(tempPixels[i + 1 + (j * 4 * w)]);
+            b.push(tempPixels[i + 2 + (j * 4 * w)]);
+        }
+
+        pixels[i] = avg(r);
+        pixels[i+1] = avg(g);
+        pixels[i+2] = avg(b);
+    }
+
+    context.putImageData(img, 0, 0);
 };
 
-/*filters['sfocatura 3'] = function (sCanvas:SuperCanvas):void {
-    let w = sCanvas.canvas.width;
+filters['quadrati 1'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        magicNumber = w / 40,
+        x,
+        y,
+        index,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data;
 
-    // need to read and then write, otherwise it will read already written pixels
-    let pixels = sCanvas.getPixels();
-    let finalPixels:Pixel[] = [];
 
-    pixels.forEach(pixel => {
-        if (pixel.x > 0 && pixel.x < w) {
-            let intervalX = 5;
-            let intervalY = 5;
-            let colors:Color[] = [];
-            let cont, cont2;
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+            index = getIndex(Math.floor(x), Math.floor(y), w);
+            context.beginPath();
+            context.rect(x, y, magicNumber, magicNumber);
+            context.fillStyle = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+            context.fill();
+            context.closePath();
 
-            for (cont = pixel.x - intervalX; cont <= pixel.x + intervalX; cont++) {
-                for (cont2 = pixel.y - intervalY; cont2 <= pixel.y + intervalY; cont2++) {
-                    let color = sCanvas.getPixelColor(cont, cont2);
-                    if (typeof color !== 'undefined') colors.push(color);
-                }
-            }
-
-            pixel.fill.r = avg(colors.map(c => c.r));
-            pixel.fill.g = avg(colors.map(c => c.g));
-            pixel.fill.b = avg(colors.map(c => c.b));
-            finalPixels.push(pixel);
-        }
-    });
-
-    finalPixels.forEach(sCanvas.drawPixel.bind(sCanvas));
-};*/
-
-filters['quadrati 1'] = function (sCanvas:SuperCanvas):void {
-    var w = sCanvas.canvas.width;
-    var h = sCanvas.canvas.height;
-    var magicNumber = w / 40;
-
-    for (var x = 0; x <= w; x += magicNumber)
-        for (var y = 0; y <= h; y += magicNumber) {
-            let c = sCanvas.getPixelColor(x, y);
-            if (c)
-                sCanvas.drawRect(c, x, y, magicNumber, magicNumber);
         }
 
 };
 
-filters['quadrati 2'] = function (sCanvas:SuperCanvas):void {
-    var w = sCanvas.canvas.width;
-    var h = sCanvas.canvas.height;
-    var magicNumber = Math.floor(w / 50);
-    let matrix = sCanvas.getPixelsMatrix();
+filters['quadrati 2'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        magicNumber = w / 40,
+        x,
+        y,
+        index,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        side;
 
-    for (var x = 0; x < w; x += magicNumber)
-        for (var y = 0; y < h; y += magicNumber) {
-            let c = matrix[x][y].fill;
-            let side = magicNumber * 5 * Math.random();
-            sCanvas.drawRect(c, x, y, side, side);
+
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+            index = getIndex(Math.floor(x), Math.floor(y), w);
+            side = magicNumber * 4 * Math.random();
+            context.beginPath();
+            context.rect(x, y, side, side);
+            context.fillStyle = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+            context.fill();
+            context.closePath();
+
         }
 
 };
@@ -230,13 +356,6 @@ function getFilters() {
 }
 
 // util
-/*function maxColor(c:Color):string {
-    var values = [c.r, c.g, c.b];
-    var names = ['r', 'g', 'b'];
-    var max = Math.max.apply(values);
-    return names[values.indexOf(max)];
-}*/
-
 function avg(nums:Array<number>):number {
     let total = 0, cont;
 
@@ -244,4 +363,19 @@ function avg(nums:Array<number>):number {
         total += nums[cont];
 
     return total / nums.length;
+}
+
+function getIndex(x: number, y: number, width: number): number {
+    return x * 4 + y * 4 * width;
+}
+
+function getCoords(index: number, rowLength: number): {x:number, y:number} {
+    return {
+        y: Math.floor(index / rowLength),
+        x: index % rowLength
+    };
+}
+
+function pixelToHex(r: number, g: number, b: number) {
+    return '#' + r.toString(16) + g.toString(16) + b.toString(16);
 }
