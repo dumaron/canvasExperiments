@@ -5,23 +5,29 @@
   <title>Canvas Experiments</title>
   <link rel="stylesheet" href="../semantic/dist/semantic.min.css" />
   <style>
-  .filtro {
-    display: block;
-  }
+    .filtro {
+      display: block;
+    }
+    canvas {
+      width: 100%;
+    }
   </style>
 </head>
 <body>
-  <div id="comandi">
-    <select id="immagine"></select>
-    <button type="button" id="aggiungiFiltro">Aggiungi filtro</button>
-    <button type="button" id="genera">Genera</button>
-    <button type="button" id="salva">Salva</button>
+  <div class="ui grid">
+  <div class="four wide column">
+    <div id="comandi">
+      <select id="immagine"></select>
+      <button type="button" id="aggiungiFiltro">Aggiungi filtro</button>
+      <button type="button" id="genera">Genera</button>
+      <button type="button" id="salva">Salva</button>
+    </div>
+    <div id="filtri"></div>
   </div>
-  <div id="filtri"></div>
-  <div id="canvasContainer">
-    <canvas id="canvas"></canvas>
+  <div id="canvasContainer" class="twelve wide column">
+      <canvas id="canvas"></canvas>
   </div>
-
+  </div>
   <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="../semantic/dist/semantic.min.js"></script>
   <script type="text/javascript" src="../built/scripts/SuperCanvas.js"></script>
