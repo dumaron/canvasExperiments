@@ -226,6 +226,25 @@ filters['colori 9'] = function (canvas: HTMLCanvasElement): void {
     context.putImageData(img, 0, 0);
 };
 
+filters['colori 10'] = function (canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        i = 0;
+
+    for (i; i<pixels.length; i+=4) {
+        let min = Math.min(pixels[i], pixels[i+1], pixels[i+2]);
+        pixels[i] = pixels[i+1] = min * 4;
+        pixels[i+2] = Math.min(255, min * 6);
+    }
+
+    context.putImageData(img, 0, 0);
+};
+
+
 filters['sfocatura 1'] = function (canvas: HTMLCanvasElement): void {
     let
         w = canvas.width,
@@ -439,6 +458,60 @@ filters['quadrati 4'] = function (canvas: HTMLCanvasElement): void {
         context.fill();
         context.closePath();
     }
+};
+
+filters['cerchi 1'] = function(canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        magicNumber = w / 40,
+        x,
+        y,
+        index,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        radius;
+
+
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+            index = getIndex(Math.floor(x), Math.floor(y), w);
+            radius = magicNumber * 2 * Math.random();
+            context.beginPath();
+            context.arc(x, y, radius, 0, 2 * Math.PI, false);
+            context.fillStyle = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+            context.fill();
+            context.closePath();
+        }
+};
+
+filters['cerchi 2'] = function(canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        iter = 10000,
+        radius = 150,
+        x,
+        y,
+        cont,
+        index,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data;
+
+
+    for (cont = 0; cont <= iter; cont++) {
+        x = Math.random() * w;
+        y = Math.random() * h;
+        index = getIndex(Math.floor(x), Math.floor(y), w);
+        context.beginPath();
+        context.arc(x, y, radius * Math.random(), 0, 2 * Math.PI, false);
+        context.fillStyle = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+        context.fill();
+        context.closePath();
+    }
+
 };
 
 function getFilters() {
