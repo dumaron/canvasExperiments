@@ -511,8 +511,117 @@ filters['cerchi 2'] = function(canvas: HTMLCanvasElement): void {
         context.fill();
         context.closePath();
     }
-
 };
+
+filters['linee 1'] = function(canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        index,
+        newX,
+        newY,
+        magicNumber = w / 300,
+        x,
+        y,
+        addX = magicNumber * 20,
+        diffY = magicNumber * 20,
+        color = '#00ff00';
+
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+            newX = x + Math.floor(addX * Math.random());
+            newY = y - Math.floor(diffY * Math.random());
+            if (newX < w && newY >= 0) {
+                index = getIndex(Math.floor(x), Math.floor(y), w);
+                color = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+                context.beginPath();
+                context.strokeStyle = color;
+                context.lineWidth = 5;
+                context.moveTo(x, y);
+                context.lineTo(newX, newY);
+                context.stroke();
+                context.closePath();
+            }
+        }
+};
+
+filters['linee 2'] = function(canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        index,
+        newX,
+        newY,
+        magicNumber = w / 200,
+        x,
+        y,
+        addX = magicNumber * 2,
+        diffY = magicNumber * 2,
+        color;
+
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+            newX = x + Math.floor(addX * Math.random());
+            newY = y - Math.floor(diffY * Math.random());
+            if (newX < w && newY >= 0) {
+                index = getIndex(Math.floor(x), Math.floor(y), w);
+                color = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+                context.beginPath();
+                context.strokeStyle = color;
+                context.lineWidth = 50;
+                context.moveTo(x, y);
+                context.lineTo(newX, newY);
+                context.stroke();
+                context.closePath();
+            }
+        }
+};
+
+
+/*filters['linee 3'] = function(canvas: HTMLCanvasElement): void {
+    let
+        w = canvas.width,
+        h = canvas.height,
+        context = canvas.getContext('2d'),
+        img = context.getImageData(0, 0, w, h),
+        pixels = img.data,
+        index,
+        newX,
+        newY,
+        magicNumber = w / 300,
+        x,
+        y,
+        fixedX = Math.floor(w / 2),
+        fixedY = Math.floor(h / 3),
+        color = '#00ff00';
+
+    for (x = 0; x <= w; x += magicNumber)
+        for (y = 0; y <= h; y += magicNumber) {
+
+
+            newX = x + Math.floor((x + fixedX) * Math.random());
+            newY = y - Math.floor((y + fixedY) * Math.random());
+
+
+            if (newX < w && newY >= 0) {
+                index = getIndex(Math.floor(x), Math.floor(y), w);
+                color = pixelToHex(pixels[index], pixels[index+1], pixels[index+2]);
+                context.beginPath();
+                context.strokeStyle = color;
+                context.lineWidth = 5;
+                context.moveTo(x, y);
+                context.lineTo(newX, newY);
+                context.stroke();
+                context.closePath();
+            }
+        }
+};*/
 
 function getFilters() {
     return filters;

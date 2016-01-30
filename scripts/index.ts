@@ -18,11 +18,22 @@ $.get('/images').then(images => {
 $addFilterButton.click(event => {
     event.preventDefault();
     var newFilter = $('<select></select>');
-    newFilter.addClass('filtro');
     for (let key of Object.keys(filters))
         newFilter.append(`<option value="${key}">${key}</option>`);
 
-    $filtersContainer.append(newFilter);
+    let filterContainer = $('<div></div>');
+    filterContainer.addClass('filtro');
+
+    let removeBtn = $('<a href="#"><i class="remove icon"></i></a>');
+    removeBtn.click(function(e) {
+        e.preventDefault();
+        filterContainer.remove();
+    });
+
+    filterContainer.append(newFilter);
+    filterContainer.append(removeBtn);
+
+    $filtersContainer.append(filterContainer);
 });
 
 $generateButton.click(event => {
